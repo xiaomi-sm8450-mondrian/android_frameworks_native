@@ -1185,7 +1185,8 @@ VkResult GetPhysicalDeviceSurfaceFormats2KHR(
                             pSurfaceFormat);
 
                     if (surfaceCompressionProps &&
-                        driver.GetPhysicalDeviceImageFormatProperties2KHR) {
+                        (driver.GetPhysicalDeviceImageFormatProperties2KHR ||
+                         driver.GetPhysicalDeviceImageFormatProperties2)) {
                         VkPhysicalDeviceImageFormatInfo2 imageFormatInfo = {};
                         imageFormatInfo.sType =
                             VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_IMAGE_FORMAT_INFO_2;
@@ -1216,7 +1217,7 @@ VkResult GetPhysicalDeviceSurfaceFormats2KHR(
                         imageFormatProps.pNext = &compressionProps;
 
                         VkResult compressionRes =
-                            driver.GetPhysicalDeviceImageFormatProperties2KHR(
+                            GetPhysicalDeviceImageFormatProperties2(
                                 physicalDevice, &imageFormatInfo,
                                 &imageFormatProps);
                         if (compressionRes == VK_SUCCESS) {
